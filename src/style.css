@@ -3,7 +3,7 @@ body{
   background: rgb(18,224,102);
   background: linear-gradient(90deg, rgba(18,224,102,1) 50%, rgba(255,255,255,1) 50%);
   font-family: 'Inter', sans-serif;
-  
+
 }
 form{
   float: right;
@@ -53,4 +53,5 @@ form{
 }
 .botao-enviar{
   background-color: rgb(18,224,102) ;
+  background:rgb(18,224,102)  ;
 }
