@@ -25,7 +25,7 @@ form{
   width: 49%;
 }
 .slogan{
-  padding-left: 7px;
+  padding: 10px;
 }
 .input-group.date {
   position: relative;
@@ -45,4 +45,11 @@ form{
 
 #calendar-icon {
   cursor: pointer;
+}
+
+.dados-api{
+  display: none;
+}
+.botao-enviar{
+  background-color: rgb(18,224,102) ;
 }
