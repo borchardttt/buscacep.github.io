@@ -12,6 +12,4 @@ let value = await fetch(url)
     })
     
   return value ;
-
- 
 }
