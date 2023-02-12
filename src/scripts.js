@@ -165,6 +165,21 @@ $("#formCadastro").submit(function(event){
   tr.append($('<td>').text(usuario.nome));
   tr.append($('<td>').text(usuario.telefone));
   table.append(tr);
+
+  const toastHTML = `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="mr-auto">Sucesso</strong>
+      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="toast-body w-100">
+      Cadastro realizado com sucesso!
+    </div>
+  </div>`;
+
+  document.querySelector("#toastContainer").innerHTML = toastHTML;
+  $(".toast").toast("show");
 });
 
 
@@ -176,41 +191,62 @@ function visualizarUsuarios() {
     console.log(usuarios);
   }
 }
-let usuarioSelecionado = null;
 
 function editarUsuario(id) {
   const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-  const usuario = usuarios.find(usuario => usuario.id === id);
-
-  if (usuario) {
-    document.querySelector("#inputNomeModal").value = usuario.nome;
-    document.querySelector("#inputTelefoneModal").value = usuario.telefone;
-    document.querySelector("#inputEmailModal").value = usuario.email;
-    document.querySelector("#inputCEPModal").value = usuario.cep;
+  let usuarioEncontrado = usuarios.find(usuario => usuario.id === id);
+  
+  if (usuarioEncontrado) {
+    $("#inputNomeModal").val(usuarioEncontrado.nome);
+    $("#inputTelefoneModal").val(usuarioEncontrado.telefone);
+    $("#inputEmailModal").val(usuarioEncontrado.email);
+    $("#inputCEPModal").val(usuarioEncontrado.cep);
 
     $("#modalEditarUsuario").modal("show");
+
+    $("#botaoSalvar").click(function() {
+      const nome = $("#inputNomeModal").val();
+      const telefone = $("#inputTelefoneModal").val();
+      const email = $("#inputEmailModal").val();
+      const cep = $("#inputCEPModal").val();
+      
+      usuarioEncontrado.nome = nome;
+      usuarioEncontrado.telefone = telefone;
+      usuarioEncontrado.email = email;
+      usuarioEncontrado.cep = cep;
+      
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+      
+      atualizarTabela(usuarios);
+      
+      $("#modalEditarUsuario").modal("hide");
+    });
   }
 }
 
-document.querySelector("#botaoSalvar").addEventListener("click", function() {
-  // Recupere os valores dos campos na janela modal
-  const nome = document.querySelector("#inputNome").value;
-  const telefone = document.querySelector("#inputTelefone").value;
-  const email = document.querySelector("#inputEmail").value;
-  const cep = document.querySelector("#inputCEP").value;
+$("#salvar").click(function() {
+  let id = $("#idUsuario").val();
+  let usuarios = JSON.parse(localStorage.getItem("usuarios"));
+  usuarios[id].nome = $("#inputNomeModal").val();
+  usuarios[id].email = $("#inputEmailModal").val();
+  usuarios[id].telefone = $("#inpuTelefoneModal").val();
+  usuarios[id].cep = $("#inpuCEPMOdal").val();
 
-  // Atualize o usuário na lista usuarios
-  usuario.nome = nome;
-  usuario.telefone = telefone;
-  usuario.email = email;
-  usuario.cep = cep;
-
-  // Atualize a tabela
+  localStorage.setItem("usuarios", JSON.stringify(usuarios));
   atualizarTabela();
-
-  // Feche a janela modal
-  $("#modalEditarUsuario").modal("hide");
 });
+
+$("#tabela").on("click", ".editar", function() {
+  let id = $(this).data("id");
+  editarUsuario(id);
+});
+
+
+
+
+
+
+
 function atualizarTabela(usuarios) {
   // Limpar o conteúdo da tabela
   $("#tabela-usuarios tbody").empty();
@@ -232,15 +268,7 @@ function atualizarTabela(usuarios) {
     );
   }
 }
-function excluirUsuario(email) {
-  for (var i = 0; i < usuarios.length; i++) {
-    if (usuarios[i].email === email) {
-      usuarios.splice(i, 1);
-      localStorage.setItem("usuarios", JSON.stringify(usuarios));
-      break;
-    }
-  }
-}
+
 
 var navlinkUsuarios = document.querySelector("#navlink");
 var sectionUsuarios = document.querySelector("#usuarios");
@@ -257,7 +285,8 @@ var linhas = "<tr>" +
 "<th>Email</th>" +
 "<th>Telefone</th>" +
 "<th>CEP</th>" +
-"<th>Ações</th>" +
+"<th>Editar</th>" +
+"<th>Excluir</th>" +
 "</tr>";
 tabelaUsuarios.innerHTML = linhas + tabelaUsuarios.innerHTML;
 
@@ -269,6 +298,8 @@ usuariosArmazenados.forEach(function(usuario) {
                 "<td>" + usuario.telefone + "</td>" +
                 "<td>" + usuario.cep + "</td>" +
                 "<td><button class='editar' id='" + usuario.id + "'>Editar</button></td>" +
+                "<td><button class='excluir' id='" + usuario.id + "'>Excluir</button></td>" +
+
               "</tr>";
   }
 });
@@ -276,16 +307,38 @@ usuariosArmazenados.forEach(function(usuario) {
 tabelaUsuarios.innerHTML = linhas;
 }
 });
-
-tabelaUsuarios.addEventListener("click", function(event) {
-  if (event.target.className === "editar") {
-    const id = event.target.id;
-    editarUsuario(id);
-  }
-});
 document.addEventListener("click", function(event) {
   if (event.target.className === "editar") {
     editarUsuario();
+  }
+});
+function excluirUsuario(id) {
+  // Cria o modal de confirmação
+  var confirmacao = confirm("Excluir usuário?");
+
+  // Se o usuário clicou em OK no modal de confirmação
+  if (confirmacao) {
+    // Encontra o índice do usuário a ser excluído no array usuariosArmazenados
+    var indiceUsuario = usuariosArmazenados.findIndex(function(usuario) {
+      return usuario.id === id;
+    });
+
+    // Remove o usuário do array usuariosArmazenados
+    usuariosArmazenados.splice(indiceUsuario, 1);
+
+    // Atualiza o local storage com o novo array usuariosArmazenados
+    localStorage.setItem("usuarios", JSON.stringify(usuariosArmazenados));
+
+    // Atualiza a tabela de usuários
+    atualizarTabelaUsuarios();
+  }
+}
+
+// Event listener que escuta cliques no botão de excluir
+tabelaUsuarios.addEventListener("click", function(event) {
+  if (event.target.classList.contains("excluir")) {
+    var id = event.target.id;
+    excluirUsuario(id);
   }
 });
 

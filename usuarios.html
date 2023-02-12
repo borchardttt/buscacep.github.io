@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="src/styleusuarios.css">
+<body>
+  <section id="usuarios">  
+      <div class="x-panel">
+        <div class="table table-bordered usuarios">
+          <table class="table" id="tabelaUsuarios">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Endereço</th>
+                <th>CEP</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal fade" id="modalEditarUsuario" tabindex="-1" role="dialog" aria-labelledby="modalEditarUsuarioTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalEditarUsuarioTitle">Editar Usuário</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form class="col-12 formModal">
+                <div class="form-group">
+                  <label>Nome:</label>
+                  <input type="text" class="form-control" id="inputNomeModal" placeholder="Nome" required>
+                </div>
+                <div class="form-group">
+                  <label>Email:</label>
+                  <input type="email" class="form-control" id="inputEmailModal" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                  <label>Telefone:</label>
+                  <input type="tel" class="form-control" id="inputTelefoneModal" placeholder="Telefone" required onkeypress="mascaraTelefone(this)">
+                </div>
+                <div class="form-group">
+                  <label>CEP:</label>
+                  <input type="text" class="form-control" id="inputCEPModal" placeholder="CEP" required onkeypress="mascaraCEP(this)">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="botaoSalvar">Salvar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  <script src="src/scripts.js"></script>
+  <script src="src/api.js"></script>
+</body>
