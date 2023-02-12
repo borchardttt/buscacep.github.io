@@ -8,6 +8,7 @@ body{
 form{
   float: right;
 }
+
 .contact-form {
     width: 45%;
     max-width: 800px;
@@ -25,6 +26,7 @@ form{
   padding-top: 120px;
   width: 49%;
 }
+
 .slogan{
   padding: 10px;
 }
@@ -54,4 +56,23 @@ form{
 .botao-enviar{
   background-color: rgb(18,224,102) ;
   background:rgb(18,224,102)  ;
+}
+.link-usuarios{
+  padding-left: 10px;
+}
+.hidden{
+  display: none;
+}
+#usuarios {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.table{
+  margin-left: -10px;
+  width: 50%;
+}
+.usuarios{
+  align-content: center;
+  text-align: center;
 }
