@@ -63,40 +63,21 @@ form{
 .hidden{
   display: none;
 }
-#usuarios {
-  position: absolute;
-  top: 0;
-  right: 0;
+.usuarios {
+  background: #ffff;
 }
-.table{
-  margin-left: -10px;
-  width: 50%;
-}
+
 .usuarios{
   align-content: center;
   text-align: center;
 }
-table{
-  background-color: white;
-}
+
 .text-sucesso{
   width: 50%;
   padding: '3em';
   position: 'top-end';
 }
-.usuarios-table {
-width: 80%;
-margin: 0 auto;
-float: left;
-text-align: center;
-border-collapse: collapse;
-}
 
-  .usuarios-table th,
-  .usuarios-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-  }
 
 
   /* Responsividade */
@@ -106,3 +87,8 @@ border-collapse: collapse;
       overflow-x: scroll;
     }
   }
+ .panel-body.usuarios {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
