@@ -46,9 +46,9 @@ function mascaraCEP(campo) {
 				$(this).hide();
 			});
 			$('#usuarios').show().animate({
-				top: '20',
+				top: '30',
 				opacity: 1
-				}, 2000);
+				}, 100);
 			});
 			
 	});
