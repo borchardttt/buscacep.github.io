@@ -22,6 +22,7 @@ function mascaraCEP(campo) {
 		campo.value = valor.replace(/\D/g, '').replace(/(\d{5})(\d{2})/, '$1-$2');
 	}
 }
+//escondendo home de formulário de cadastro e indo para section de usuários
  $(document).ready(function() {
 		$('#usuarios').hide();
 		$('#usuarios-title').hide();
@@ -86,13 +87,15 @@ $(document).ready(function() {
 			}
 		}
 	});
+
 //mostrando a janela de escolher data com o datepicker após clique no icon
 $("#calendar-icon").click(function() {
 	$("#inputDataNascimento").datepicker("show");
 });
 
 });
-//preenchendo os input com os resultados da api
+
+//preenchendo os inputscom os resultados da api
 $(document).ready(function(){
   $('#inputCEP').blur(function(){
     var cep = $(this).val().replace(/\D/g, '');
@@ -122,6 +125,7 @@ $(document).ready(function(){
     }
   });
 });
+
 //validando as senhas e inserindo tooltip de senhas não iguais
 $(document).ready(function(){
   $("#confirmacao-senha").on("input", function(){
@@ -141,7 +145,6 @@ $(document).ready(function(){
 });
 
 //cadastrando usuários no localstorage 
-
 var usuarios = [];
 var usuariosArmazenados = JSON.parse(localStorage.getItem("usuarios")) || [];
 usuarios = usuarios.concat(usuariosArmazenados);
@@ -158,118 +161,8 @@ $("#formCadastro").submit(function(event){
 	};
 	usuarios.push(usuario);
 	localStorage.setItem("usuarios", JSON.stringify(usuarios));
-  
-  // Adiciona as informações do usuário na tabela
-  var table = $('#tabelas');
-  var tr = $('<tr>');
-  tr.append($('<td>').text(usuario.nome));
-  tr.append($('<td>').text(usuario.telefone));
-  table.append(tr);
 
-  const toastHTML = `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="toast-header">
-      <strong class="mr-auto">Sucesso</strong>
-      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="toast-body w-100">
-      Cadastro realizado com sucesso!
-    </div>
-  </div>`;
-
-  document.querySelector("#toastContainer").innerHTML = toastHTML;
-  $(".toast").toast("show");
-});
-
-
-//visualizando usuários
-function visualizarUsuarios() {
-  var usuariosArmazenados = localStorage.getItem("usuarios");
-  if (usuariosArmazenados) {
-    usuarios = JSON.parse(usuariosArmazenados);
-    console.log(usuarios);
-  }
-}
-
-function editarUsuario(id) {
-  const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-  let usuarioEncontrado = usuarios.find(usuario => usuario.id === id);
-  
-  if (usuarioEncontrado) {
-    $("#inputNomeModal").val(usuarioEncontrado.nome);
-    $("#inputTelefoneModal").val(usuarioEncontrado.telefone);
-    $("#inputEmailModal").val(usuarioEncontrado.email);
-    $("#inputCEPModal").val(usuarioEncontrado.cep);
-
-    $("#modalEditarUsuario").modal("show");
-
-    $("#botaoSalvar").click(function() {
-      const nome = $("#inputNomeModal").val();
-      const telefone = $("#inputTelefoneModal").val();
-      const email = $("#inputEmailModal").val();
-      const cep = $("#inputCEPModal").val();
-      
-      usuarioEncontrado.nome = nome;
-      usuarioEncontrado.telefone = telefone;
-      usuarioEncontrado.email = email;
-      usuarioEncontrado.cep = cep;
-      
-      localStorage.setItem("usuarios", JSON.stringify(usuarios));
-      
-      atualizarTabela(usuarios);
-      
-      $("#modalEditarUsuario").modal("hide");
-    });
-  }
-}
-
-$("#salvar").click(function() {
-  let id = $("#idUsuario").val();
-  let usuarios = JSON.parse(localStorage.getItem("usuarios"));
-  usuarios[id].nome = $("#inputNomeModal").val();
-  usuarios[id].email = $("#inputEmailModal").val();
-  usuarios[id].telefone = $("#inpuTelefoneModal").val();
-  usuarios[id].cep = $("#inpuCEPMOdal").val();
-
-  localStorage.setItem("usuarios", JSON.stringify(usuarios));
-  atualizarTabela();
-});
-
-$("#tabela").on("click", ".editar", function() {
-  let id = $(this).data("id");
-  editarUsuario(id);
-});
-
-
-
-
-
-
-
-function atualizarTabela(usuarios) {
-  // Limpar o conteúdo da tabela
-  $("#tabela-usuarios tbody").empty();
-
-  // Adicionar cada usuário na tabela
-  for (var i = 0; i < usuarios.length; i++) {
-    var usuario = usuarios[i];
-    $("#tabela-usuarios tbody").append(
-      "<tr>" +
-        "<td>" + usuario.nome + "</td>" +
-        "<td>" + usuario.email + "</td>" +
-        "<td>" + usuario.telefone + "</td>" +
-        "<td>" + usuario.cep + "</td>" +
-        "<td>" +
-          "<button class='btn btn-primary btn-editar'>Editar</button>" +
-          "<button class='btn btn-danger btn-excluir'>Excluir</button>" +
-        "</td>" +
-      "</tr>"
-    );
-  }
-}
-
-
+//criando tabela para ver usuários
 var navlinkUsuarios = document.querySelector("#navlink");
 var sectionUsuarios = document.querySelector("#usuarios");
 var tabelaUsuarios = document.querySelector("#tabelaUsuarios");
@@ -307,6 +200,112 @@ usuariosArmazenados.forEach(function(usuario) {
 tabelaUsuarios.innerHTML = linhas;
 }
 });
+  
+  // Adiciona as informações do usuário na tabela
+  var table = $('#tabelas');
+  var tr = $('<tr>');
+  tr.append($('<td>').text(usuario.nome));
+  tr.append($('<td>').text(usuario.telefone));
+  table.append(tr);
+
+  const toastHTML = `<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="mr-auto">Sucesso</strong>
+      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="toast-body w-100">
+      Cadastro realizado com sucesso!
+    </div>
+  </div>`;
+
+  document.querySelector("#toastContainer").innerHTML = toastHTML;
+  $(".toast").toast("show");
+});
+
+
+//visualizando usuários
+function visualizarUsuarios() {
+  let usuariosArmazenados = localStorage.getItem("usuarios");
+  if (usuariosArmazenados) {
+    let usuarios = JSON.parse(usuariosArmazenados);
+    console.log(usuarios);
+  }
+}
+
+//editando usuário
+function editarUsuario(id) {
+  const usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+  let usuarioEncontrado = usuarios.find(usuario => usuario.id === id);
+  
+  if (usuarioEncontrado) {
+    $("#inputNomeModal").val(usuarioEncontrado.nome);
+    $("#inputTelefoneModal").val(usuarioEncontrado.telefone);
+    $("#inputEmailModal").val(usuarioEncontrado.email);
+    $("#inputCEPModal").val(usuarioEncontrado.cep);
+
+    $("#modalEditarUsuario").modal("show");
+
+    $("#botaoSalvar").click(function() {
+      const nome = $("#inputNomeModal").val();
+      const telefone = $("#inputTelefoneModal").val();
+      const email = $("#inputEmailModal").val();
+      const cep = $("#inputCEPModal").val();
+      
+      usuarioEncontrado.nome = nome;
+      usuarioEncontrado.telefone = telefone;
+      usuarioEncontrado.email = email;
+      usuarioEncontrado.cep = cep;
+      
+      localStorage.setItem("usuarios", JSON.stringify(usuarios));
+      
+      atualizarTabela(usuarios);
+      
+      $("#modalEditarUsuario").modal("hide");
+    });
+  }
+}
+//botão editar abrindo modal de edição
+$("#tabela").on("click", ".editar", function() {
+  let id = $(this).data("id");
+  editarUsuario(id);
+});
+
+//atualizando a tabela apóos salvar a edição
+$("#salvar").click(function() {
+  let id = $("#idUsuario").val();
+  let usuarios = JSON.parse(localStorage.getItem("usuarios"));
+  usuarios[id].nome = $("#inputNomeModal").val();
+  usuarios[id].email = $("#inputEmailModal").val();
+  usuarios[id].telefone = $("#inpuTelefoneModal").val();
+  usuarios[id].cep = $("#inpuCEPMOdal").val();
+
+  localStorage.setItem("usuarios", JSON.stringify(usuarios));
+  atualizarTabela();
+});
+function atualizarTabela(usuarios) {
+  // Limpar o conteúdo da tabela
+  $("#tabela-usuarios tbody").empty();
+
+  // Adicionar cada usuário na tabela
+  for (var i = 0; i < usuarios.length; i++) {
+    var usuario = usuarios[i];
+    $("#tabela-usuarios tbody").append(
+      "<tr>" +
+        "<td>" + usuario.nome + "</td>" +
+        "<td>" + usuario.email + "</td>" +
+        "<td>" + usuario.telefone + "</td>" +
+        "<td>" + usuario.cep + "</td>" +
+        "<td>" +
+          "<button class='btn btn-primary btn-editar'>Editar</button>" +
+          "<button class='btn btn-danger btn-excluir'>Excluir</button>" +
+        "</td>" +
+      "</tr>"
+    );
+  }
+}
+
 document.addEventListener("click", function(event) {
   if (event.target.className === "editar") {
     editarUsuario();
