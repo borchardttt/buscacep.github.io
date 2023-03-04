@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cadastro</title>
+    <link rel="shortcut icon" type="image/png" href="img/logo.png">
+    <link 
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" 
+      rel="stylesheet" 
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" 
+      crossorigin="anonymous">
+    <link rel="stylesheet" href="src/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  </head>
+  <body class="body-fiqon">
+    <nav id="nav">
+      <button href="#tabelas" 
+      class="text-dark btn btn-success link-usuarios navlink" id="navlink" style="background: #12e066;">Usuários</button>
+    </nav>
+    <section id="usuarios">  
+      <div class="panel-body usuarios">
+        <div class="table table-bordered usuarios table-responsive">
+          <table class="table usuarios-table" id="tabelaUsuarios">
+            <thead>
+              <tr class="thead-dark">
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Endereço</th>
+                <th>CEP</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal fade" id="modalEditarUsuario" tabindex="-1" role="dialog" aria-labelledby="modalEditarUsuarioTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalEditarUsuarioTitle">Editar Usuário</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form class="col-12 formModal">
+                <div class="form-group">
+                  <label>Nome:</label>
+                  <input type="text" class="form-control" id="inputNomeModal" placeholder="Nome" required>
+                </div>
+                <div class="form-group">
+                  <label>Email:</label>
+                  <input type="email" class="form-control" id="inputEmailModal" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                  <label>Telefone:</label>
+                  <input type="tel" class="form-control" id="inputTelefoneModal" placeholder="Telefone" required onkeypress="mascaraTelefone(this)">
+                </div>
+                <div class="form-group">
+                  <label>CEP:</label>
+                  <input type="text" class="form-control" id="inputCEPModal" placeholder="CEP" required onkeypress="mascaraCEP(this)">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="botaoSalvar">Salvar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <form action="" id="formCadastro" class="contact-form">
+      <div class="form-group">
+        <h2 class="text-center">Faça seu cadastro!</h2>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="inputNome" placeholder="Nome" required>
+      </div>
+      <div class="form-group">
+      <div class="input-group date">
+        <input type="text" class="form-control" id="inputDataNascimento" placeholder="Nascimento" required>
+        <div class="input-group-addon" id="calendar-icon">
+          <i class="fa fa-calendar"></i>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="email" class="form-control" id="inputEmail" placeholder="Email" required>
+    </div>
+    <div class="form-group">
+      <input type="tel" class="form-control" id="inputTelefone" placeholder="Telefone" required onkeypress="mascaraTelefone(this)">
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" id="inputCEP" placeholder="CEP" required onkeypress="mascaraCEP(this)">
+    </div>
+    <div class="form-group dados-api">
+      <label>Logradouro</label>
+      <input type="text" class="form-control" id="inputLogradouro" placeholder="Logradouro" readonly>
+    </div>
+    <div class="form-group dados-api">
+      <input type="text" class="form-control" id="inputNumero" placeholder="Número" required>
+    </div>
+    <div class="form-group dados-api">
+      <input type="text" class="form-control" id="inputComplemento" placeholder="Complemento">
+    </div>
+    <div class="form-group dados-api">
+      <label>Bairro</label>
+      <input type="text" class="form-control" id="inputBairro" placeholder="Bairro" readonly>
+    </div>
+    <div class="form-group dados-api">
+      <label>Cidade</label>
+      <input type="text" class="form-control" id="inputCidade" placeholder="Cidade" readonly>
+    </div>
+    <div class="form-group dados-api">
+      <label>Estado</label>
+      <input type="text" class="form-control" id="inputUF" placeholder="UF (Sigla)" readonly>
+    </div>
+    <div class="form-group dados-api">
+      <label>Código IBGE</label>
+      <input type="text" class="form-control" id="inputIBGE" placeholder="Código IBGE" readonly>
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control" id="inputSenha" placeholder="Senha" required>
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control" id="confirmacao-senha" name="confirmacao-senha" placeholder="Repita a senha" required>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn botao-enviar">Cadastrar</button>
+    </div>
+    <div id="toastContainer" class="text-sucesso"></div>
+  </form>
+    <h1 id="slogan" class="text-start slogan responsive">A gente <strong class="text-white">integra</strong>, você <strong class="text-dark">conecta.</strong></h1>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <script src="src/scripts.js"></script>
+  <script src="src/api.js"></script>
+  </body>
+</html>
